@@ -16,7 +16,7 @@ namespace DoAn_LTTQ
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Master_Layout());
+            Application.Run(new AdminPanel());
         }
     }
 }
