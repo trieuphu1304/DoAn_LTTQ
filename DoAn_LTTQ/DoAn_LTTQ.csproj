@@ -33,7 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,14 +48,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminPanel.Designer.cs">
+      <DependentUpon>AdminPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AccountDAL.cs" />
+    <Compile Include="Data\BillDAL.cs" />
+    <Compile Include="Data\BillInfoDAL.cs" />
+    <Compile Include="Data\CustomerDAL.cs" />
+    <Compile Include="Data\DatabaseConnection.cs" />
+    <Compile Include="Data\EmployeeDAL.cs" />
+    <Compile Include="Data\FoodCategoryDAL.cs" />
+    <Compile Include="Data\FoodDAL.cs" />
+    <Compile Include="Data\TableFoodDAL.cs" />
     <Compile Include="Master_Layout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Master_Layout.Designer.cs">
       <DependentUpon>Master_Layout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\BillInfo.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Food.cs" />
+    <Compile Include="Models\FoodCategory.cs" />
+    <Compile Include="Models\TableFood.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdminPanel.resx">
+      <DependentUpon>AdminPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master_Layout.resx">
       <DependentUpon>Master_Layout.cs</DependentUpon>
     </EmbeddedResource>

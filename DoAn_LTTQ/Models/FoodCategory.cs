@@ -1,0 +1,8 @@
+namespace DoAn_LTTQ.Models
+{
+    public class FoodCategory
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+}
