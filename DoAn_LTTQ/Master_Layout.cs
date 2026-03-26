@@ -17,8 +17,7 @@ namespace DoAn_LTTQ
 
         private void nhânViênToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            QLNhanVien nv = new QLNhanVien();
-            nv.Show();
+            
         }
     }
 }

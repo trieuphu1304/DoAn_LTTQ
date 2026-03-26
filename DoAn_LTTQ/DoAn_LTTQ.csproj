@@ -33,9 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
-    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +52,20 @@
     <Compile Include="AdminPanel.Designer.cs">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Master_Layout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master_Layout.Designer.cs">
+      <DependentUpon>Master_Layout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNhaHangDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <!-- DATA -->
     <Compile Include="Data\AccountDAL.cs" />
     <Compile Include="Data\BillDAL.cs" />
     <Compile Include="Data\BillInfoDAL.cs" />
@@ -63,12 +75,7 @@
     <Compile Include="Data\FoodCategoryDAL.cs" />
     <Compile Include="Data\FoodDAL.cs" />
     <Compile Include="Data\TableFoodDAL.cs" />
-    <Compile Include="Master_Layout.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Master_Layout.Designer.cs">
-      <DependentUpon>Master_Layout.cs</DependentUpon>
-    </Compile>
+    <!-- MODELS -->
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillInfo.cs" />
@@ -77,59 +84,64 @@
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\FoodCategory.cs" />
     <Compile Include="Models\TableFood.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< Updated upstream
+    <!-- RESOURCES -->
+    <Compile Include="QuanLyNhaHangDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNhaHangDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet2.xsd</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdminPanel.resx">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </EmbeddedResource>
-=======
-    <Compile Include="QLNhanVien.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="QLNhanVien.Designer.cs">
-      <DependentUpon>QLNhanVien.cs</DependentUpon>
-    </Compile>
-    <Compile Include="QuanLyNhaHangDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
-    </Compile>
->>>>>>> Stashed changes
     <EmbeddedResource Include="Master_Layout.resx">
       <DependentUpon>Master_Layout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="QLNhanVien.resx">
-      <DependentUpon>QLNhanVien.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="QuanLyNhaHangDataSet.xsc">
-      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
-    </None>
+    <None Include="QuanLyNhaHangDataSet.xsc" />
     <None Include="QuanLyNhaHangDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>QuanLyNhaHangDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="QuanLyNhaHangDataSet.xss" />
+    <None Include="QuanLyNhaHangDataSet1.xsc">
+      <DependentUpon>QuanLyNhaHangDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QuanLyNhaHangDataSet1.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="QuanLyNhaHangDataSet.xss">
-      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
+    <None Include="QuanLyNhaHangDataSet1.xss">
+      <DependentUpon>QuanLyNhaHangDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet2.xsc">
+      <DependentUpon>QuanLyNhaHangDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QuanLyNhaHangDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QuanLyNhaHangDataSet2.xss">
+      <DependentUpon>QuanLyNhaHangDataSet2.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
