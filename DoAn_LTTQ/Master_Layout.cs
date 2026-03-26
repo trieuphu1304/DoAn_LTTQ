@@ -14,5 +14,10 @@ namespace DoAn_LTTQ
         {
 
         }
+
+        private void nhânViênToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

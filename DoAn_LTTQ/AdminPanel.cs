@@ -17,6 +17,13 @@ namespace DoAn_LTTQ
         private int selectedFoodID = -1;
         private int selectedTableID = -1;
         private string selectedAccountUserName = "";
+        private int selectedEmployeeID = -1;
+        private string selectedEmployeeImagePath = "";
+
+        // Employee Tab specific
+        private QuanLyNhaHangDataSet quanLyNhaHangDataSet;
+        private System.Windows.Forms.BindingSource employeeBindingSource;
+        private QuanLyNhaHangDataSetTableAdapters.EmployeeTableAdapter employeeTableAdapter;
 
         public AdminPanel()
         {
@@ -30,6 +37,7 @@ namespace DoAn_LTTQ
             {
                 LoadFoodCategories();
                 LoadAccountRoles();
+                InitializeEmployeeTab();  // Initialize employee tab BEFORE loading data
                 LoadAllData();
             }
             catch (Exception ex)
@@ -99,6 +107,7 @@ namespace DoAn_LTTQ
             LoadTableData();
             LoadAccountData();
             LoadBillData();
+            LoadEmployeeData();
         }
 
         // ============== TAB 1: DOANH THU ==============
@@ -141,6 +150,8 @@ namespace DoAn_LTTQ
                 MessageBox.Show("Lỗi load dữ liệu món ăn: " + ex.Message, "Lỗi");
             }
         }
+
+        
 
         private void LoadFoodByCategory(int categoryID)
         {
@@ -651,5 +662,288 @@ namespace DoAn_LTTQ
             if (cbRole.Items.Count > 0)
                 cbRole.SelectedIndex = 0;
         }
+
+        // ============== TAB 5: NHÂN VIÊN ==============
+        private void InitializeEmployeeTab()
+        {
+            try
+            {
+                // Initialize dataset and adapters if not already done
+                if (quanLyNhaHangDataSet == null)
+                {
+                    quanLyNhaHangDataSet = new QuanLyNhaHangDataSet();
+                    employeeBindingSource = new System.Windows.Forms.BindingSource();
+                    employeeTableAdapter = new QuanLyNhaHangDataSetTableAdapters.EmployeeTableAdapter();
+                    employeeBindingSource.DataMember = "Employee";
+                    employeeBindingSource.DataSource = quanLyNhaHangDataSet;
+                }
+
+                btnNVAdd.Click += BtnNVAdd_Click;
+                btnNVEdit.Click += BtnNVEdit_Click;
+                btnNVDelete.Click += BtnNVDelete_Click;
+                
+                btnNVSelectAvatar.Click += BtnNVSelectAvatar_Click;
+                dgvNhanVien.CellClick += DgvNhanVien_CellClick;
+                // Don't call LoadEmployeeData() here - it will be called from LoadAllData()
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khởi tạo tab nhân viên: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void LoadEmployeeData()
+        {
+            try
+            {
+                this.quanLyNhaHangDataSet.Employee.Clear();
+                this.employeeTableAdapter.Fill(this.quanLyNhaHangDataSet.Employee);
+                dgvNhanVien.DataSource = this.employeeBindingSource;
+                dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi load dữ liệu nhân viên: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void DgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0 && e.RowIndex < dgvNhanVien.Rows.Count)
+                {
+                    DataGridViewRow row = dgvNhanVien.Rows[e.RowIndex];
+
+                    // Lấy dữ liệu từ DataRow trong dataset
+                    if (row.DataBoundItem is System.Data.DataRowView drv)
+                    {
+                        System.Data.DataRow dataRow = drv.Row;
+
+                        // Lấy ID
+                        if (dataRow.Table.Columns.Contains("ID"))
+                            selectedEmployeeID = Convert.ToInt32(dataRow["ID"]);
+
+                        // Lấy các thông tin khác
+                        if (dataRow.Table.Columns.Contains("Name"))
+                            txtNVName.Text = dataRow["Name"]?.ToString() ?? "";
+
+                        if (dataRow.Table.Columns.Contains("Phone"))
+                            txtNVPhone.Text = dataRow["Phone"]?.ToString() ?? "";
+
+                        if (dataRow.Table.Columns.Contains("Position"))
+                            txtNVPosition.Text = dataRow["Position"]?.ToString() ?? "";
+
+                        if (dataRow.Table.Columns.Contains("Salary"))
+                            txtNVSalary.Text = dataRow["Salary"]?.ToString() ?? "";
+
+                        // Hiển thị ảnh từ cơ sở dữ liệu
+                        if (dataRow.Table.Columns.Contains("Avatar"))
+                        {
+                            string avatarPath = dataRow["Avatar"]?.ToString();
+                            if (!string.IsNullOrWhiteSpace(avatarPath) && System.IO.File.Exists(avatarPath))
+                            {
+                                lblNVAvatarDisplay.Image = Image.FromFile(avatarPath);
+                                lblNVAvatarDisplay.AutoSize = true;
+                                selectedEmployeeImagePath = avatarPath;
+                            }
+                            else
+                            {
+                                lblNVAvatarDisplay.Image = null;
+                                lblNVAvatarDisplay.AutoSize = false;
+                                selectedEmployeeImagePath = "";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void BtnNVAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtNVName.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên nhân viên!", "Thông báo");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtNVPhone.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập số điện thoại!", "Thông báo");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtNVPosition.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập vị trí!", "Thông báo");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtNVSalary.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập lương!", "Thông báo");
+                    return;
+                }
+
+                // Kiểm tra trùng lặp thông tin nhân viên
+                string newName = txtNVName.Text.Trim();
+                string newPhone = txtNVPhone.Text.Trim();
+
+                foreach (System.Data.DataRow row in this.quanLyNhaHangDataSet.Employee.Rows)
+                {
+                    string existingName = row["Name"]?.ToString() ?? "";
+                    string existingPhone = row["Phone"]?.ToString() ?? "";
+
+                    if (existingName.Equals(newName, StringComparison.OrdinalIgnoreCase) || 
+                        existingPhone.Equals(newPhone))
+                    {
+                        MessageBox.Show($"Nhân viên có tên '{newName}' hoặc số điện thoại '{newPhone}' đã tồn tại trong hệ thống!", 
+                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                string avatarPath = "";
+                if (!string.IsNullOrWhiteSpace(selectedEmployeeImagePath) && System.IO.File.Exists(selectedEmployeeImagePath))
+                {
+                    avatarPath = selectedEmployeeImagePath;
+                }
+
+                decimal salary = decimal.Parse(txtNVSalary.Text);
+                var newRow = this.quanLyNhaHangDataSet.Employee.NewEmployeeRow();
+                newRow.Name = txtNVName.Text;
+                newRow.Phone = txtNVPhone.Text;
+                newRow.Position = txtNVPosition.Text;
+                newRow.Salary = salary;
+                if (!string.IsNullOrWhiteSpace(avatarPath))
+                    newRow.Avatar = avatarPath;
+
+                this.quanLyNhaHangDataSet.Employee.AddEmployeeRow(newRow);
+                this.employeeTableAdapter.Update(this.quanLyNhaHangDataSet.Employee);
+
+                LoadEmployeeData();
+                ClearEmployeeInputs();
+                MessageBox.Show("Thêm nhân viên thành công!", "Thành công");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm nhân viên: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void BtnNVEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedEmployeeID == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn nhân viên cần sửa!", "Thông báo");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtNVName.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên nhân viên!", "Thông báo");
+                    return;
+                }
+
+                var employeeRow = this.quanLyNhaHangDataSet.Employee.FindByID(selectedEmployeeID);
+                if (employeeRow != null)
+                {
+                    employeeRow.Name = txtNVName.Text;
+                    employeeRow.Phone = txtNVPhone.Text;
+                    employeeRow.Position = txtNVPosition.Text;
+                    if (decimal.TryParse(txtNVSalary.Text, out decimal salary))
+                        employeeRow.Salary = salary;
+
+                    if (!string.IsNullOrWhiteSpace(selectedEmployeeImagePath) && System.IO.File.Exists(selectedEmployeeImagePath))
+                        employeeRow.Avatar = selectedEmployeeImagePath;
+
+                    this.employeeTableAdapter.Update(this.quanLyNhaHangDataSet.Employee);
+                    LoadEmployeeData();
+                    ClearEmployeeInputs();
+                    MessageBox.Show("Cập nhật nhân viên thành công!", "Thành công");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật nhân viên: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void BtnNVDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedEmployeeID == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn nhân viên cần xóa!", "Thông báo");
+                    return;
+                }
+
+                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nhân viên này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    var employeeRow = this.quanLyNhaHangDataSet.Employee.FindByID(selectedEmployeeID);
+                    if (employeeRow != null)
+                    {
+                        employeeRow.Delete();
+                        this.employeeTableAdapter.Update(this.quanLyNhaHangDataSet.Employee);
+                        LoadEmployeeData();
+                        ClearEmployeeInputs();
+                        MessageBox.Show("Xóa nhân viên thành công!", "Thành công");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa nhân viên: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void BtnNVSelectAvatar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image files (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
+                openFileDialog.Title = "Chọn ảnh đại diện";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    selectedEmployeeImagePath = openFileDialog.FileName;
+                    // Hiển thị ảnh trong ToolStripLabel
+                    lblNVAvatarDisplay.Image = Image.FromFile(selectedEmployeeImagePath);
+                    lblNVAvatarDisplay.AutoSize = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void ClearEmployeeInputs()
+        {
+            txtNVName.Clear();
+            txtNVPhone.Clear();
+            txtNVSalary.Clear();
+            txtNVPosition.Clear();
+            lblNVAvatarDisplay.Image = null;
+            selectedEmployeeID = -1;
+            selectedEmployeeImagePath = "";
+        }
+
+        private void tableLayoutPanelNVButtons_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
+

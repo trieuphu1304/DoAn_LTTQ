@@ -5,7 +5,7 @@ namespace DoAn_LTTQ.Data
 {
     public class DatabaseConnection
     {
-        private static string connectionString = "Server=DESKTOP-7HEOJP5;Database=QuanLyNhaHang;User Id=sa;Password=123456;";
+        private static string connectionString = "Server=LAPTOP-EGJ04B3S;Database=QuanLyNhaHang;User Id=sa;Password=123456;";
 
         public static SqlConnection GetConnection()
         {
