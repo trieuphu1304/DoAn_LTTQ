@@ -33,7 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,14 +48,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegratedOrderingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegratedOrderingForm.Designer.cs">
+      <DependentUpon>IntegratedOrderingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Master_Layout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Master_Layout.Designer.cs">
       <DependentUpon>Master_Layout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\BillInfo.cs" />
+    <Compile Include="Models\Food.cs" />
+    <Compile Include="Models\FoodCategory.cs" />
+    <Compile Include="Models\TableFood.cs" />
+    <Compile Include="OrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderForm.Designer.cs">
+      <DependentUpon>OrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHistoryForm.Designer.cs" />
+    <Compile Include="PaymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaymentForm.Designer.cs">
+      <DependentUpon>PaymentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BillHistoryService.cs" />
+    <Compile Include="Services\BillService.cs" />
+    <Compile Include="Services\DatabaseHelper.cs" />
+    <Compile Include="Services\FoodCategoryService.cs" />
+    <Compile Include="Services\FoodService.cs" />
+    <Compile Include="Services\TableFoodService.cs" />
+    <Compile Include="TableSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TableSelectionForm.Designer.cs">
+      <DependentUpon>TableSelectionForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Master_Layout.resx">
       <DependentUpon>Master_Layout.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +119,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Database\UpdateFoodImages.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

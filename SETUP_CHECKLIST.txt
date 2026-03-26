@@ -1,0 +1,159 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                    ✅ CHECKLIST HOÀN THÀNH                              ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+📋 BƯỚC CỤ THỂ ĐỂ CHẠY HỆ THỐNG:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BƯỚC 1: CHẠY SQL SCRIPT
+  ☐ Mở SQL Server Management Studio
+  ☐ Kết nối: Server=desktop-lp7eslp
+  ☐ Chọn Database: QuanLyNhaHang
+  ☐ Mở file: Setup_TestData.sql
+  ☐ Nhấn F5 để chạy script
+  ☐ Kết quả: ✓ 10 Bàn, 25 Món ăn, 3 Danh mục
+
+BƯỚC 2: KIỂM TRA DỮ LIỆU (tùy chọn)
+  ☐ Mở file: CheckData.sql
+  ☐ Nhấn F5 để chạy
+  ☐ Kiểm tra: 
+    ✓ 10 Tables
+    ✓ 25 Food Items
+    ✓ 3 Categories
+
+BƯỚC 3: CHẠY ỨNG DỤNG
+  ☐ Visual Studio: Nhấn F5
+  ☐ Chờ ứng dụng load xong
+
+BƯỚC 4: KIỂM TRA GIAO DIỆN
+  ☐ Thấy Menu chính với 3 item
+  ☐ Click "Chọn Bàn"
+  ☐ Thấy TableSelectionForm
+  ☐ Thấy 10 button bàn trong grid
+  ☐ Bàn trống: 🟢 nền trắng
+  ☐ Bàn sử dụng: 🔴 nền hồng (nếu có)
+
+BƯỚC 5: CHỌN BÀN
+  ☐ Click Bàn 1
+  ☐ Form đóng
+  ☐ OrderForm mở với Bàn 1 selected
+  ☐ Tự động ở Tab 2: "Chọn Món Ăn"
+
+BƯỚC 6: CHỌN MÓN
+  ☐ Chọn danh mục: "Nước uống"
+  ☐ Thấy danh sách nước (Bia, Nước ép, v.v)
+  ☐ Chọn: "Nước cam ép"
+  ☐ Số lượng: 1
+  ☐ Click "Thêm vào"
+  ☐ Thấy message: "Thêm thành công!"
+
+BƯỚC 7: THÊM MÓN KHÁC
+  ☐ Chọn danh mục: "Nước uống"
+  ☐ Chọn: "Bia Tiger"
+  ☐ Số lượng: 2
+  ☐ Click "Thêm vào"
+
+BƯỚC 8: CHỌN TIẾP TỤC
+  ☐ Click "Tiếp tục"
+  ☐ Nhảy sang Tab 3: "Đặt hàng"
+  ☐ Thấy:
+    ✓ 2 dòng trong đơn
+    ✓ Tổng tiền: 65,000đ
+
+BƯỚC 9: LƯU HÓA ĐƠN
+  ☐ Click "Lưu"
+  ☐ Thấy message: "Lưu đơn hàng thành công!"
+  ☐ Form quay lại Tab 1
+
+BƯỚC 10: KIỂM TRA LẠI BÀNS
+  ☐ Click "Chọn Bàn" từ menu
+  ☐ Bàn 1 giờ là 🔴 (Đang sử dụng)
+  ☐ Thấy:
+    ✓ 2 món
+    ✓ 1 khách
+    ✓ 65,000đ
+
+BƯỚC 11: XEM LỊCH SỬ
+  ☐ Click "Lịch sử đặt món"
+  ☐ Thấy hóa đơn vừa lưu
+  ☐ Click hàng → Thấy chi tiết các món
+
+═══════════════════════════════════════════════════════════════════════════
+
+✨ CÁC TÍNH NĂNG CHÍNH:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑️ Giao diện chọn bàn (10 button bàn)
+   ✓ Bàn trống: 🟢 nền trắng
+   ✓ Bàn sử dụng: 🔴 nền hồng
+   ✓ Hiển thị: số lượng món, khách, tổng tiền
+   ✓ 3 tab: Tất cả / Sử dụng / Còn trống
+
+☑️ Chọn món ăn (3 tab flow)
+   ✓ Tab 1: Chọn bàn → Auto jump Tab 2
+   ✓ Tab 2: Chọn danh mục → Danh sách món
+   ✓ Tab 3: Xem tổng → Lưu / In
+
+☑️ Tính năng theo dõi bàn
+   ✓ Tự động cập nhật status từ database
+   ✓ Ghi nhớ số món, số khách, tổng tiền
+   ✓ Tránh nhầm lẫn bàn
+
+☑️ Dữ liệu test sẵn sàng
+   ✓ 10 bàn ăn
+   ✓ 25+ món ăn + nước
+   ✓ 3 danh mục
+
+═══════════════════════════════════════════════════════════════════════════
+
+📁 CÁC FILE HƯỚNG DẪN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Setup_TestData.sql
+   → Chạy để thêm dữ liệu vào database
+
+2. CheckData.sql
+   → Kiểm tra dữ liệu đã được thêm
+
+3. README.md
+   → Hướng dẫn chi tiết
+
+4. QUICK_START.txt
+   → Hướng dẫn nhanh
+
+5. FULL_GUIDE.txt
+   → Hướng dẫn đầy đủ từng bước
+
+6. TABLE_SELECTION_FEATURES.md
+   → Chi tiết tính năng chọn bàn
+
+7. FEATURES_SUMMARY.md
+   → Tóm tắt tất cả tính năng
+
+═══════════════════════════════════════════════════════════════════════════
+
+❓ CÂU HỎI THƯỜNG GẶP:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q: Form trống, không thấy bàn?
+A: Chạy Setup_TestData.sql trước
+
+Q: Bàn không update status?
+A: Kiểm tra đã click "Lưu" chưa
+
+Q: Danh mục không load?
+A: Rebuild project (Ctrl+Shift+B)
+
+Q: Connection error?
+A: Kiểm tra server=desktop-lp7eslp trong DatabaseHelper.cs
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎉 HỆ THỐNG ĐÃ SẴN SÀNG!
+
+Bước tiếp theo:
+  1. Chạy Setup_TestData.sql
+  2. Nhấn F5 để khởi động ứng dụng
+  3. Click "Chọn Bàn" để bắt đầu
+
+═══════════════════════════════════════════════════════════════════════════

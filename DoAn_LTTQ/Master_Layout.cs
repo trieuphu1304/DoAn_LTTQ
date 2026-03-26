@@ -21,5 +21,17 @@ namespace DoAn_LTTQ
         {
 
         }
+
+        private void chọnBànToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IntegratedOrderingForm orderForm = new IntegratedOrderingForm();
+            orderForm.ShowDialog();
+        }
+
+        private void lịchSửĐặtMónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OrderHistoryForm historyForm = new OrderHistoryForm();
+            historyForm.ShowDialog();
+        }
     }
 }
