@@ -122,7 +122,11 @@
             this.btnDeleteAccount = new System.Windows.Forms.Button();
             this.dgvAccount = new System.Windows.Forms.DataGridView();
             this.tabPageNhanvien = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelNVList = new System.Windows.Forms.TableLayoutPanel();
+            this.dgvNhanVien = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanelNVButtons = new System.Windows.Forms.TableLayoutPanel();
+            this.btnNVAdd = new System.Windows.Forms.Button();
+            this.btnNVEdit = new System.Windows.Forms.Button();
             this.btnNVDelete = new System.Windows.Forms.Button();
             this.tableLayoutPanelNVInfo = new System.Windows.Forms.TableLayoutPanel();
             this.labelNVName = new System.Windows.Forms.Label();
@@ -137,11 +141,14 @@
             this.toolStripNVAvatar = new System.Windows.Forms.ToolStrip();
             this.btnNVSelectAvatar = new System.Windows.Forms.ToolStripButton();
             this.lblNVAvatarDisplay = new System.Windows.Forms.ToolStripLabel();
-            this.dgvNhanVien = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanelNVList = new System.Windows.Forms.TableLayoutPanel();
-            this.btnNVEdit = new System.Windows.Forms.Button();
-            this.btnNVAdd = new System.Windows.Forms.Button();
             this.btnNVRefresh = new System.Windows.Forms.Button();
+            this.tabPageCategory = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtTenMon = new System.Windows.Forms.TextBox();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.dgvFoodCategory = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPageRevenue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoice)).BeginInit();
@@ -152,11 +159,13 @@
             this.tabPageAccount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccount)).BeginInit();
             this.tabPageNhanvien.SuspendLayout();
+            this.tableLayoutPanelNVList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).BeginInit();
             this.tableLayoutPanelNVButtons.SuspendLayout();
             this.tableLayoutPanelNVInfo.SuspendLayout();
             this.toolStripNVAvatar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).BeginInit();
-            this.tableLayoutPanelNVList.SuspendLayout();
+            this.tabPageCategory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFoodCategory)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -166,6 +175,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageRevenue);
             this.tabControl1.Controls.Add(this.tabPageMenu);
+            this.tabControl1.Controls.Add(this.tabPageCategory);
             this.tabControl1.Controls.Add(this.tabPageTable);
             this.tabControl1.Controls.Add(this.tabPageAccount);
             this.tabControl1.Controls.Add(this.tabPageNhanvien);
@@ -252,6 +262,7 @@
             this.dgvInvoice.RowHeadersWidth = 51;
             this.dgvInvoice.Size = new System.Drawing.Size(1248, 668);
             this.dgvInvoice.TabIndex = 5;
+            this.dgvInvoice.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvoice_CellContentClick);
             // 
             // tabPageMenu
             // 
@@ -641,6 +652,34 @@
             this.tabPageNhanvien.Text = "Nhân Viên";
             this.tabPageNhanvien.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanelNVList
+            // 
+            this.tableLayoutPanelNVList.ColumnCount = 1;
+            this.tableLayoutPanelNVList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelNVList.Controls.Add(this.dgvNhanVien, 0, 0);
+            this.tableLayoutPanelNVList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelNVList.Location = new System.Drawing.Point(3, 209);
+            this.tableLayoutPanelNVList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tableLayoutPanelNVList.Name = "tableLayoutPanelNVList";
+            this.tableLayoutPanelNVList.RowCount = 1;
+            this.tableLayoutPanelNVList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelNVList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 528F));
+            this.tableLayoutPanelNVList.Size = new System.Drawing.Size(1268, 528);
+            this.tableLayoutPanelNVList.TabIndex = 3;
+            // 
+            // dgvNhanVien
+            // 
+            this.dgvNhanVien.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvNhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvNhanVien.Location = new System.Drawing.Point(3, 4);
+            this.dgvNhanVien.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgvNhanVien.Name = "dgvNhanVien";
+            this.dgvNhanVien.RowHeadersWidth = 62;
+            this.dgvNhanVien.Size = new System.Drawing.Size(1262, 520);
+            this.dgvNhanVien.TabIndex = 1;
+            // 
             // tableLayoutPanelNVButtons
             // 
             this.tableLayoutPanelNVButtons.ColumnCount = 7;
@@ -654,7 +693,6 @@
             this.tableLayoutPanelNVButtons.Controls.Add(this.btnNVAdd, 1, 0);
             this.tableLayoutPanelNVButtons.Controls.Add(this.btnNVEdit, 2, 0);
             this.tableLayoutPanelNVButtons.Controls.Add(this.btnNVDelete, 3, 0);
-            
             this.tableLayoutPanelNVButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanelNVButtons.Location = new System.Drawing.Point(3, 160);
             this.tableLayoutPanelNVButtons.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -664,11 +702,35 @@
             this.tableLayoutPanelNVButtons.Size = new System.Drawing.Size(1268, 49);
             this.tableLayoutPanelNVButtons.TabIndex = 2;
             // 
+            // btnNVAdd
+            // 
+            this.btnNVAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNVAdd.Location = new System.Drawing.Point(256, 4);
+            this.btnNVAdd.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnNVAdd.Name = "btnNVAdd";
+            this.btnNVAdd.Size = new System.Drawing.Size(184, 41);
+            this.btnNVAdd.TabIndex = 0;
+            this.btnNVAdd.Text = "Thêm";
+            this.btnNVAdd.UseVisualStyleBackColor = true;
+            // 
+            // btnNVEdit
+            // 
+            this.btnNVEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNVEdit.Location = new System.Drawing.Point(446, 4);
+            this.btnNVEdit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnNVEdit.Name = "btnNVEdit";
+            this.btnNVEdit.Size = new System.Drawing.Size(184, 41);
+            this.btnNVEdit.TabIndex = 1;
+            this.btnNVEdit.Text = "Sửa";
+            this.btnNVEdit.UseVisualStyleBackColor = true;
+            // 
             // btnNVDelete
             // 
             this.btnNVDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNVDelete.Location = new System.Drawing.Point(636, 4);
             this.btnNVDelete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnNVDelete.Name = "btnNVDelete";
+            this.btnNVDelete.Size = new System.Drawing.Size(184, 41);
             this.btnNVDelete.TabIndex = 2;
             this.btnNVDelete.Text = "Xóa";
             this.btnNVDelete.UseVisualStyleBackColor = true;
@@ -801,58 +863,87 @@
             // lblNVAvatarDisplay
             // 
             this.lblNVAvatarDisplay.AutoSize = false;
-            this.lblNVAvatarDisplay.Image = null;
             this.lblNVAvatarDisplay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblNVAvatarDisplay.Name = "lblNVAvatarDisplay";
             this.lblNVAvatarDisplay.Size = new System.Drawing.Size(100, 29);
-            this.lblNVAvatarDisplay.Text = "";
             this.lblNVAvatarDisplay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // dgvNhanVien
+            // btnNVRefresh
             // 
-            this.dgvNhanVien.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvNhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNhanVien.Location = new System.Drawing.Point(3, 4);
-            this.dgvNhanVien.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgvNhanVien.Name = "dgvNhanVien";
-            this.dgvNhanVien.RowHeadersWidth = 62;
-            this.dgvNhanVien.Size = new System.Drawing.Size(1262, 520);
-            this.dgvNhanVien.TabIndex = 1;
+            this.btnNVRefresh.Location = new System.Drawing.Point(0, 0);
+            this.btnNVRefresh.Name = "btnNVRefresh";
+            this.btnNVRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnNVRefresh.TabIndex = 0;
             // 
-            // tableLayoutPanelNVList
+            // tabPageCategory
             // 
-            this.tableLayoutPanelNVList.ColumnCount = 1;
-            this.tableLayoutPanelNVList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelNVList.Controls.Add(this.dgvNhanVien, 0, 0);
-            this.tableLayoutPanelNVList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelNVList.Location = new System.Drawing.Point(3, 209);
-            this.tableLayoutPanelNVList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tableLayoutPanelNVList.Name = "tableLayoutPanelNVList";
-            this.tableLayoutPanelNVList.RowCount = 1;
-            this.tableLayoutPanelNVList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelNVList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelNVList.Size = new System.Drawing.Size(1268, 528);
-            this.tableLayoutPanelNVList.TabIndex = 3;
+            this.tabPageCategory.Controls.Add(this.dgvFoodCategory);
+            this.tabPageCategory.Controls.Add(this.btnDelete);
+            this.tabPageCategory.Controls.Add(this.btnUpdate);
+            this.tabPageCategory.Controls.Add(this.btnAdd);
+            this.tabPageCategory.Controls.Add(this.txtTenMon);
+            this.tabPageCategory.Controls.Add(this.label1);
+            this.tabPageCategory.Location = new System.Drawing.Point(4, 34);
+            this.tabPageCategory.Name = "tabPageCategory";
+            this.tabPageCategory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCategory.Size = new System.Drawing.Size(1274, 741);
+            this.tabPageCategory.TabIndex = 5;
+            this.tabPageCategory.Text = "Danh mục món ăn";
+            this.tabPageCategory.UseVisualStyleBackColor = true;
             // 
-            // btnNVEdit
+            // label1
             // 
-            this.btnNVEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNVEdit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnNVEdit.Name = "btnNVEdit";
-            this.btnNVEdit.TabIndex = 1;
-            this.btnNVEdit.Text = "Sửa";
-            this.btnNVEdit.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(49, 55);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Tên danh mục";
             // 
-            // btnNVAdd
+            // txtTenMon
             // 
-            this.btnNVAdd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNVAdd.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnNVAdd.Name = "btnNVAdd";
-            this.btnNVAdd.TabIndex = 0;
-            this.btnNVAdd.Text = "Thêm";
-            this.btnNVAdd.UseVisualStyleBackColor = true;
+            this.txtTenMon.Location = new System.Drawing.Point(220, 50);
+            this.txtTenMon.Name = "txtTenMon";
+            this.txtTenMon.Size = new System.Drawing.Size(276, 30);
+            this.txtTenMon.TabIndex = 2;
+            this.txtTenMon.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(588, 41);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(124, 49);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.Text = "Thêm ";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(762, 41);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(110, 49);
+            this.btnUpdate.TabIndex = 4;
+            this.btnUpdate.Text = "Sửa";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(911, 41);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(126, 49);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "Xóa";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            // 
+            // dgvFoodCategory
+            // 
+            this.dgvFoodCategory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFoodCategory.Location = new System.Drawing.Point(54, 155);
+            this.dgvFoodCategory.Name = "dgvFoodCategory";
+            this.dgvFoodCategory.RowHeadersWidth = 62;
+            this.dgvFoodCategory.RowTemplate.Height = 28;
+            this.dgvFoodCategory.Size = new System.Drawing.Size(1124, 488);
+            this.dgvFoodCategory.TabIndex = 6;
             // 
             // AdminPanel
             // 
@@ -879,13 +970,16 @@
             this.tabPageAccount.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccount)).EndInit();
             this.tabPageNhanvien.ResumeLayout(false);
+            this.tableLayoutPanelNVList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).EndInit();
             this.tableLayoutPanelNVButtons.ResumeLayout(false);
             this.tableLayoutPanelNVInfo.ResumeLayout(false);
             this.tableLayoutPanelNVInfo.PerformLayout();
             this.toolStripNVAvatar.ResumeLayout(false);
             this.toolStripNVAvatar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).EndInit();
-            this.tableLayoutPanelNVList.ResumeLayout(false);
+            this.tabPageCategory.ResumeLayout(false);
+            this.tabPageCategory.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFoodCategory)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -913,5 +1007,12 @@
         private System.Windows.Forms.Button btnNVEdit;
         private System.Windows.Forms.Button btnNVAdd;
         private System.Windows.Forms.ToolStripLabel lblNVAvatarDisplay;
+        private System.Windows.Forms.TabPage tabPageCategory;
+        private System.Windows.Forms.TextBox txtTenMon;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.DataGridView dgvFoodCategory;
     }
 }
