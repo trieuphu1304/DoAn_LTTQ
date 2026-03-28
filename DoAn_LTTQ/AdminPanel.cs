@@ -651,5 +651,44 @@ namespace DoAn_LTTQ
             if (cbRole.Items.Count > 0)
                 cbRole.SelectedIndex = 0;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", 
+                    "Xác Nhận Đăng Xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                
+                if (result == DialogResult.Yes)
+                {
+                    // Tìm và hiển thị LoginForm nếu nó đang bị ẩn
+                    bool loginFormFound = false;
+                    for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
+                    {
+                        Form form = Application.OpenForms[i];
+                        if (form.GetType().Name == "LoginForm")
+                        {
+                            form.Show();
+                            loginFormFound = true;
+                            break;
+                        }
+                    }
+                    
+                    // Nếu không tìm thấy LoginForm, tạo mới
+                    if (!loginFormFound)
+                    {
+                        LoginForm loginForm = new LoginForm();
+                        loginForm.Show();
+                    }
+                    
+                    // Đóng AdminPanel
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+            }
+        }
     }
 }
