@@ -19,6 +19,7 @@ namespace DoAn_LTTQ
         private string selectedAccountUserName = "";
         private int selectedEmployeeID = -1;
         private string selectedEmployeeImagePath = "";
+        private int selectedCategoryID = -1;
 
         // Employee Tab specific
         private QuanLyNhaHangDataSet quanLyNhaHangDataSet;
@@ -38,6 +39,7 @@ namespace DoAn_LTTQ
                 LoadFoodCategories();
                 LoadAccountRoles();
                 InitializeEmployeeTab();  // Initialize employee tab BEFORE loading data
+                InitializeCategoryTab();   // Initialize category tab
                 LoadAllData();
             }
             catch (Exception ex)
@@ -943,6 +945,196 @@ namespace DoAn_LTTQ
         private void tableLayoutPanelNVButtons_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void dgvInvoice_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        // ============== TAB 6: DANH MỤC MÓN ĂN ==============
+        private void InitializeCategoryTab()
+        {
+            try
+            {
+                btnAdd.Click += BtnAddCategory_Click;
+                btnUpdate.Click += BtnUpdateCategory_Click;
+                btnDelete.Click += BtnDeleteCategory_Click;
+                dgvFoodCategory.CellClick += DgvFoodCategory_CellClick;
+                LoadCategoryData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khởi tạo tab danh mục: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void LoadCategoryData()
+        {
+            try
+            {
+                List<FoodCategory> categories = FoodCategoryDAL.GetAllCategories();
+                dgvFoodCategory.DataSource = null;
+                dgvFoodCategory.DataSource = categories;
+                dgvFoodCategory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi load danh mục: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void DgvFoodCategory_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0 && dgvFoodCategory.Rows[e.RowIndex].DataBoundItem is FoodCategory category)
+                {
+                    selectedCategoryID = category.ID;
+                    txtTenMon.Text = category.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        private void BtnAddCategory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtTenMon.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên danh mục", "Thông báo");
+                    txtTenMon.Focus();
+                    return;
+                }
+
+                // Kiểm tra trùng lặp
+                string newCategoryName = txtTenMon.Text.Trim();
+                List<FoodCategory> existingCategories = FoodCategoryDAL.GetAllCategories();
+
+                foreach (var cat in existingCategories)
+                {
+                    if (cat.Name.Equals(newCategoryName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        MessageBox.Show($"Danh mục '{newCategoryName}' đã tồn tại!", 
+                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                FoodCategory category = new FoodCategory
+                {
+                    Name = newCategoryName
+                };
+
+                if (FoodCategoryDAL.AddCategory(category))
+                {
+                    MessageBox.Show("Thêm danh mục thành công", "Thành công");
+                    ClearCategoryInputs();
+                    LoadCategoryData();
+                    LoadFoodCategories(); // Cập nhật combo box ở tab Thực đơn
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void BtnUpdateCategory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedCategoryID == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn danh mục cần sửa", "Thông báo");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtTenMon.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên danh mục", "Thông báo");
+                    txtTenMon.Focus();
+                    return;
+                }
+
+                // Kiểm tra trùng lặp (trừ danh mục đang chỉnh sửa)
+                string newCategoryName = txtTenMon.Text.Trim();
+                List<FoodCategory> existingCategories = FoodCategoryDAL.GetAllCategories();
+
+                foreach (var cat in existingCategories)
+                {
+                    if (cat.ID != selectedCategoryID && 
+                        cat.Name.Equals(newCategoryName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        MessageBox.Show($"Danh mục '{newCategoryName}' đã tồn tại!", 
+                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                FoodCategory category = new FoodCategory
+                {
+                    ID = selectedCategoryID,
+                    Name = newCategoryName
+                };
+
+                if (FoodCategoryDAL.UpdateCategory(selectedCategoryID, category))
+                {
+                    MessageBox.Show("Cập nhật danh mục thành công", "Thành công");
+                    ClearCategoryInputs();
+                    LoadCategoryData();
+                    LoadFoodCategories();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void BtnDeleteCategory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedCategoryID == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn danh mục cần xóa", "Thông báo");
+                    return;
+                }
+
+                DialogResult result = MessageBox.Show($"Bạn chắc chắn muốn xóa danh mục này?", 
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    if (FoodCategoryDAL.DeleteCategory(selectedCategoryID))
+                    {
+                        MessageBox.Show("Xóa danh mục thành công", "Thành công");
+                        ClearCategoryInputs();
+                        LoadCategoryData();
+                        LoadFoodCategories();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+            }
+        }
+
+        private void ClearCategoryInputs()
+        {
+            txtTenMon.Clear();
+            selectedCategoryID = -1;
         }
     }
 }

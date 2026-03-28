@@ -86,6 +86,32 @@
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\FoodCategory.cs" />
     <Compile Include="Models\TableFood.cs" />
+    <!-- RESOURCES -->
+    <Compile Include="QuanLyNhaHangDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNhaHangDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNhaHangDataSet3.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet3.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNhaHangDataSet4.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet4.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNhaHangDataSet5.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdminPanel.resx">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,11 +136,58 @@
     <None Include="QuanLyNhaHangDataSet.xsc" />
     <None Include="QuanLyNhaHangDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>QuanLyNhaHangDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>QuanLyNhaHangDataSet5.Designer.cs</LastGenOutput>
     </None>
     <None Include="QuanLyNhaHangDataSet.xss" />
+    <None Include="QuanLyNhaHangDataSet1.xsc">
+      <DependentUpon>QuanLyNhaHangDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QuanLyNhaHangDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QuanLyNhaHangDataSet1.xss">
+      <DependentUpon>QuanLyNhaHangDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet2.xsc">
+      <DependentUpon>QuanLyNhaHangDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QuanLyNhaHangDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QuanLyNhaHangDataSet2.xss">
+      <DependentUpon>QuanLyNhaHangDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet3.xsc">
+      <DependentUpon>QuanLyNhaHangDataSet3.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet3.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QuanLyNhaHangDataSet3.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QuanLyNhaHangDataSet3.xss">
+      <DependentUpon>QuanLyNhaHangDataSet3.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet4.xsc">
+      <DependentUpon>QuanLyNhaHangDataSet4.xsd</DependentUpon>
+    </None>
+    <None Include="QuanLyNhaHangDataSet4.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QuanLyNhaHangDataSet4.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QuanLyNhaHangDataSet4.xss">
+      <DependentUpon>QuanLyNhaHangDataSet4.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
+
+
