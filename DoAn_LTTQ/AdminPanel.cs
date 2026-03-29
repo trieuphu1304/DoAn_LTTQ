@@ -14,9 +14,18 @@ namespace DoAn_LTTQ
 {
     public partial class AdminPanel : Form
     {
+        // Các biến ID được chọn
         private int selectedFoodID = -1;
         private int selectedTableID = -1;
         private string selectedAccountUserName = "";
+        private int selectedEmployeeID = -1;
+        private string selectedEmployeeImagePath = "";
+        private int selectedCategoryID = -1;
+
+        // Cấu hình riêng cho Tab Nhân viên (Sử dụng DataSet)
+        private QuanLyNhaHangDataSet quanLyNhaHangDataSet;
+        private System.Windows.Forms.BindingSource employeeBindingSource;
+        private QuanLyNhaHangDataSetTableAdapters.EmployeeTableAdapter employeeTableAdapter;
 
         public AdminPanel()
         {
@@ -28,17 +37,31 @@ namespace DoAn_LTTQ
         {
             try
             {
-                LoadFoodCategories();
-                LoadAccountRoles();
+                LoadFoodCategories(); // Load vào ComboBox ở tab Món ăn
+                LoadAccountRoles();   // Load quyền vào ComboBox tài khoản
+
+                InitializeEmployeeTab(); // Khởi tạo tab nhân viên (DataSet)
+                InitializeCategoryTab(); // Khởi tạo tab danh mục món ăn
+
                 LoadAllData();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi load dữ liệu: " + ex.Message, "Lỗi");
+                MessageBox.Show("Lỗi khi load dữ liệu tổng thể: " + ex.Message, "Lỗi");
             }
         }
 
-        // ============== LOAD DANH MỤC & CHỨC VỤ ==============
+        private void LoadAllData()
+        {
+            LoadFoodData();
+            LoadTableData();
+            LoadAccountData();
+            LoadBillData();
+            LoadEmployeeData();
+            LoadCategoryData();
+        }
+
+        // ============== LOAD DANH MỤC & CHỨC VỤ (Dùng chung) ==============
         private void LoadFoodCategories()
         {
             try
@@ -46,14 +69,14 @@ namespace DoAn_LTTQ
                 List<FoodCategory> categories = FoodCategoryDAL.GetAllCategories();
                 if (categories != null && categories.Count > 0)
                 {
-                    cbCategory.DataSource = null; // Reset trước
+                    cbCategory.DataSource = null;
                     cbCategory.DataSource = categories;
                     cbCategory.DisplayMember = "Name";
                     cbCategory.ValueMember = "ID";
-                    // Chỉ gán event SAU khi bind dữ liệu xong
-                    cbCategory.SelectedIndexChanged -= CbCategory_SelectedIndexChanged; // Remove cũ
-                    cbCategory.SelectedIndexChanged += CbCategory_SelectedIndexChanged; // Add mới
-                    cbCategory.SelectedIndex = 0; // Chọn item đầu tiên
+
+                    cbCategory.SelectedIndexChanged -= CbCategory_SelectedIndexChanged;
+                    cbCategory.SelectedIndexChanged += CbCategory_SelectedIndexChanged;
+                    cbCategory.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -64,41 +87,18 @@ namespace DoAn_LTTQ
 
         private void CbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
+            if (cbCategory.SelectedValue != null && cbCategory.SelectedValue is int categoryID)
             {
-                if (cbCategory.SelectedValue != null && cbCategory.SelectedValue is int)
-                {
-                    int categoryID = (int)cbCategory.SelectedValue;
-                    LoadFoodByCategory(categoryID);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+                LoadFoodByCategory(categoryID);
             }
         }
 
         private void LoadAccountRoles()
         {
-            try
-            {
-                cbRole.Items.Clear();
-                cbRole.Items.Add("0:Admin");
-                cbRole.Items.Add("1:Nhân viên");
-                cbRole.Items.Add("2:Quản lý");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-        }
-
-        private void LoadAllData()
-        {
-            LoadFoodData();
-            LoadTableData();
-            LoadAccountData();
-            LoadBillData();
+            cbRole.Items.Clear();
+            cbRole.Items.Add("0:Admin");
+            cbRole.Items.Add("1:Nhân viên");
+            cbRole.Items.Add("2:Quản lý");
         }
 
         // ============== TAB 1: DOANH THU ==============
@@ -109,586 +109,212 @@ namespace DoAn_LTTQ
                 DateTime fromDate = dtpFromDate.Value.Date;
                 DateTime toDate = dtpToDate.Value.Date;
                 List<Bill> bills = BillDAL.GetBillsByDateRange(fromDate, toDate);
-
-                dgvInvoice.DataSource = null;
                 dgvInvoice.DataSource = bills;
                 dgvInvoice.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 dgvInvoice.ReadOnly = true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi load hóa đơn: " + ex.Message, "Lỗi");
-            }
+            catch (Exception ex) { MessageBox.Show("Lỗi load hóa đơn: " + ex.Message); }
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            LoadBillData();
-        }
+        private void btnSearch_Click(object sender, EventArgs e) => LoadBillData();
 
         // ============== TAB 2: THỰC ĐƠN ==============
         private void LoadFoodData()
         {
-            try
-            {
-                List<Food> foods = FoodDAL.GetAllFoods();
-                dgvDish.DataSource = null;
-                dgvDish.DataSource = foods;
-                dgvDish.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi load dữ liệu món ăn: " + ex.Message, "Lỗi");
-            }
+            dgvDish.DataSource = FoodDAL.GetAllFoods();
+            dgvDish.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void LoadFoodByCategory(int categoryID)
         {
-            try
-            {
-                List<Food> foods = FoodDAL.GetFoodsByCategory(categoryID);
-                dgvDish.DataSource = null;
-                dgvDish.DataSource = foods;
-                dgvDish.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi load dữ liệu: " + ex.Message, "Lỗi");
-            }
+            dgvDish.DataSource = FoodDAL.GetFoodsByCategory(categoryID);
         }
 
         private void btnAddDish_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txtDishName.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên món ăn", "Thông báo");
-                    txtDishName.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtPrice.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập giá bán", "Thông báo");
-                    txtPrice.Focus();
-                    return;
-                }
-
-                if (cbCategory.SelectedValue == null || !(cbCategory.SelectedValue is int))
-                {
-                    MessageBox.Show("Vui lòng chọn danh mục", "Thông báo");
-                    return;
-                }
-
-                decimal price;
-                if (!decimal.TryParse(txtPrice.Text, out price) || price <= 0)
-                {
-                    MessageBox.Show("Giá bán phải là số dương", "Thông báo");
-                    txtPrice.Focus();
-                    return;
-                }
-
-                Food food = new Food
-                {
-                    Name = txtDishName.Text.Trim(),
-                    CategoryID = (int)cbCategory.SelectedValue,
-                    Price = (float)price,
-                    ImagePath = txtImagePath.Text.Trim()
-                };
-
-                if (FoodDAL.AddFood(food))
-                {
-                    MessageBox.Show("Thêm món ăn thành công", "Thành công");
-                    ClearFoodInputs();
-                    LoadFoodData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
+            if (string.IsNullOrWhiteSpace(txtDishName.Text) || !decimal.TryParse(txtPrice.Text, out decimal price)) return;
+            Food food = new Food { Name = txtDishName.Text, CategoryID = (int)cbCategory.SelectedValue, Price = (float)price, ImagePath = txtImagePath.Text };
+            if (FoodDAL.AddFood(food)) { LoadFoodData(); ClearFoodInputs(); }
         }
 
         private void btnEditDish_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (selectedFoodID == -1)
-                {
-                    MessageBox.Show("Vui lòng chọn một món ăn để sửa", "Thông báo");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtDishName.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên món ăn", "Thông báo");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtPrice.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập giá bán", "Thông báo");
-                    return;
-                }
-
-                decimal price;
-                if (!decimal.TryParse(txtPrice.Text, out price) || price <= 0)
-                {
-                    MessageBox.Show("Giá bán phải là số dương", "Thông báo");
-                    return;
-                }
-
-                Food food = new Food
-                {
-                    Name = txtDishName.Text.Trim(),
-                    CategoryID = (int)cbCategory.SelectedValue,
-                    Price = (float)price,
-                    ImagePath = txtImagePath.Text.Trim()
-                };
-
-                if (FoodDAL.UpdateFood(selectedFoodID, food))
-                {
-                    MessageBox.Show("Cập nhật món ăn thành công", "Thành công");
-                    ClearFoodInputs();
-                    LoadFoodData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
+            if (selectedFoodID == -1 || !decimal.TryParse(txtPrice.Text, out decimal price)) return;
+            Food food = new Food { Name = txtDishName.Text, CategoryID = (int)cbCategory.SelectedValue, Price = (float)price, ImagePath = txtImagePath.Text };
+            if (FoodDAL.UpdateFood(selectedFoodID, food)) { LoadFoodData(); }
         }
 
         private void btnDeleteDish_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (selectedFoodID == -1)
-                {
-                    MessageBox.Show("Vui lòng chọn một món ăn để xóa", "Thông báo");
-                    return;
-                }
-
-                DialogResult result = MessageBox.Show("Bạn chắc chắn muốn xóa món ăn này?", 
-                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    if (FoodDAL.DeleteFood(selectedFoodID))
-                    {
-                        MessageBox.Show("Xóa món ăn thành công", "Thành công");
-                        ClearFoodInputs();
-                        LoadFoodData();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
+            if (selectedFoodID != -1 && MessageBox.Show("Xóa món này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (FoodDAL.DeleteFood(selectedFoodID)) { LoadFoodData(); ClearFoodInputs(); }
         }
 
         private void dgvDish_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
+            if (e.RowIndex >= 0 && dgvDish.Rows[e.RowIndex].DataBoundItem is Food food)
             {
-                if (e.RowIndex >= 0 && dgvDish.Rows[e.RowIndex].DataBoundItem is Food food)
-                {
-                    selectedFoodID = food.ID;
-                    txtDishName.Text = food.Name;
-                    cbCategory.SelectedValue = food.CategoryID;
-                    txtPrice.Text = food.Price.ToString();
-                    txtImagePath.Text = food.ImagePath ?? "";
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+                selectedFoodID = food.ID;
+                txtDishName.Text = food.Name;
+                cbCategory.SelectedValue = food.CategoryID;
+                txtPrice.Text = food.Price.ToString();
+                txtImagePath.Text = food.ImagePath ?? "";
             }
         }
 
-        private void ClearFoodInputs()
-        {
-            txtDishName.Clear();
-            txtPrice.Clear();
-            txtImagePath.Clear();
-            selectedFoodID = -1;
-            if (cbCategory.Items.Count > 0)
-                cbCategory.SelectedIndex = 0;
-        }
-
-        private void btnBrowseImage_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp|All Files|*.*";
-                    openFileDialog.Title = "Chọn ảnh cho món ăn";
-
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        txtImagePath.Text = openFileDialog.FileName;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
-        }
+        private void ClearFoodInputs() { txtDishName.Clear(); txtPrice.Clear(); txtImagePath.Clear(); selectedFoodID = -1; }
 
         // ============== TAB 3: BÀN ĂN ==============
-        private void LoadTableData()
-        {
-            try
-            {
-                List<TableFood> tables = TableFoodDAL.GetAllTables();
-                dgvTable.DataSource = null;
-                dgvTable.DataSource = tables;
-                dgvTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi load dữ liệu bàn ăn: " + ex.Message, "Lỗi");
-            }
-        }
+        private void LoadTableData() => dgvTable.DataSource = TableFoodDAL.GetAllTables();
 
         private void btnAddTable_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txtTableName.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên bàn", "Thông báo");
-                    txtTableName.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtCapacity.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập trạng thái", "Thông báo");
-                    txtCapacity.Focus();
-                    return;
-                }
-
-                TableFood table = new TableFood
-                {
-                    Name = txtTableName.Text.Trim(),
-                    Status = txtCapacity.Text.Trim()
-                };
-
-                if (TableFoodDAL.AddTable(table))
-                {
-                    MessageBox.Show("Thêm bàn ăn thành công", "Thành công");
-                    ClearTableInputs();
-                    LoadTableData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
+            if (TableFoodDAL.AddTable(new TableFood { Name = txtTableName.Text, Status = txtCapacity.Text })) { LoadTableData(); ClearTableInputs(); }
         }
 
         private void btnEditTable_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (selectedTableID == -1)
-                {
-                    MessageBox.Show("Vui lòng chọn một bàn ăn để sửa", "Thông báo");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtTableName.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên bàn", "Thông báo");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtCapacity.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập trạng thái", "Thông báo");
-                    return;
-                }
-
-                TableFood table = new TableFood
-                {
-                    Name = txtTableName.Text.Trim(),
-                    Status = txtCapacity.Text.Trim()
-                };
-
-                if (TableFoodDAL.UpdateTable(selectedTableID, table))
-                {
-                    MessageBox.Show("Cập nhật bàn ăn thành công", "Thành công");
-                    ClearTableInputs();
-                    LoadTableData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
-        }
-
-        private void btnDeleteTable_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (selectedTableID == -1)
-                {
-                    MessageBox.Show("Vui lòng chọn một bàn ăn để xóa", "Thông báo");
-                    return;
-                }
-
-                DialogResult result = MessageBox.Show("Bạn chắc chắn muốn xóa bàn ăn này?", 
-                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    if (TableFoodDAL.DeleteTable(selectedTableID))
-                    {
-                        MessageBox.Show("Xóa bàn ăn thành công", "Thành công");
-                        ClearTableInputs();
-                        LoadTableData();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
+            if (selectedTableID != -1 && TableFoodDAL.UpdateTable(selectedTableID, new TableFood { Name = txtTableName.Text, Status = txtCapacity.Text })) LoadTableData();
         }
 
         private void dgvTable_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
+            if (e.RowIndex >= 0 && dgvTable.Rows[e.RowIndex].DataBoundItem is TableFood table)
             {
-                if (e.RowIndex >= 0 && dgvTable.Rows[e.RowIndex].DataBoundItem is TableFood table)
-                {
-                    selectedTableID = table.ID;
-                    txtTableName.Text = table.Name;
-                    txtCapacity.Text = table.Status;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+                selectedTableID = table.ID;
+                txtTableName.Text = table.Name;
+                txtCapacity.Text = table.Status;
             }
         }
 
-        private void ClearTableInputs()
-        {
-            txtTableName.Clear();
-            txtCapacity.Clear();
-            selectedTableID = -1;
-        }
+        private void ClearTableInputs() { txtTableName.Clear(); txtCapacity.Clear(); selectedTableID = -1; }
 
         // ============== TAB 4: TÀI KHOẢN ==============
-        private void LoadAccountData()
-        {
-            try
-            {
-                List<Account> accounts = AccountDAL.GetAllAccounts();
-                dgvAccount.DataSource = null;
-                dgvAccount.DataSource = accounts;
-                dgvAccount.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi load dữ liệu tài khoản: " + ex.Message, "Lỗi");
-            }
-        }
+        private void LoadAccountData() => dgvAccount.DataSource = AccountDAL.GetAllAccounts();
 
         private void btnAddAccount_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txtUsername.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên tài khoản", "Thông báo");
-                    txtUsername.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtPassword.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập mật khẩu", "Thông báo");
-                    txtPassword.Focus();
-                    return;
-                }
-
-                if (cbRole.SelectedItem == null)
-                {
-                    MessageBox.Show("Vui lòng chọn chức vụ", "Thông báo");
-                    return;
-                }
-
-                Account account = new Account
-                {
-                    UserName = txtUsername.Text.Trim(),
-                    DisplayName = txtUsername.Text.Trim(),
-                    Password = txtPassword.Text,
-                    Type = int.Parse(cbRole.SelectedItem.ToString().Split(':')[0]),
-                    EmployeeID = null
-                };
-
-                if (AccountDAL.AddAccount(account))
-                {
-                    MessageBox.Show("Thêm tài khoản thành công", "Thành công");
-                    ClearAccountInputs();
-                    LoadAccountData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
-        }
-
-        private void btnEditAccount_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(selectedAccountUserName))
-                {
-                    MessageBox.Show("Vui lòng chọn một tài khoản để sửa", "Thông báo");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtUsername.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên tài khoản", "Thông báo");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtPassword.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập mật khẩu", "Thông báo");
-                    return;
-                }
-
-                Account account = new Account
-                {
-                    UserName = txtUsername.Text.Trim(),
-                    DisplayName = txtUsername.Text.Trim(),
-                    Password = txtPassword.Text,
-                    Type = int.Parse(cbRole.SelectedItem.ToString().Split(':')[0]),
-                    EmployeeID = null
-                };
-
-                if (AccountDAL.UpdateAccount(selectedAccountUserName, account))
-                {
-                    MessageBox.Show("Cập nhật tài khoản thành công", "Thành công");
-                    ClearAccountInputs();
-                    LoadAccountData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
-        }
-
-        private void btnDeleteAccount_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(selectedAccountUserName))
-                {
-                    MessageBox.Show("Vui lòng chọn một tài khoản để xóa", "Thông báo");
-                    return;
-                }
-
-                DialogResult result = MessageBox.Show($"Bạn chắc chắn muốn xóa tài khoản '{selectedAccountUserName}'?", 
-                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    if (AccountDAL.DeleteAccount(selectedAccountUserName))
-                    {
-                        MessageBox.Show("Xóa tài khoản thành công", "Thành công");
-                        ClearAccountInputs();
-                        LoadAccountData();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
-            }
+            if (cbRole.SelectedItem == null) return;
+            Account acc = new Account { UserName = txtUsername.Text, Password = txtPassword.Text, Type = int.Parse(cbRole.SelectedItem.ToString().Split(':')[0]) };
+            if (AccountDAL.AddAccount(acc)) LoadAccountData();
         }
 
         private void dgvAccount_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
+            if (e.RowIndex >= 0 && dgvAccount.Rows[e.RowIndex].DataBoundItem is Account acc)
             {
-                if (e.RowIndex >= 0 && dgvAccount.Rows[e.RowIndex].DataBoundItem is Account account)
-                {
-                    selectedAccountUserName = account.UserName;
-                    txtUsername.Text = account.UserName;
-                    txtPassword.Text = account.Password;
-
-                    // Set role based on Type int value
-                    string roleText = account.Type == 0 ? "0:Admin" : 
-                                      account.Type == 1 ? "1:Nhân viên" : "2:Quản lý";
-                    cbRole.SelectedItem = roleText;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+                selectedAccountUserName = acc.UserName;
+                txtUsername.Text = acc.UserName;
+                txtPassword.Text = acc.Password;
+                cbRole.SelectedItem = acc.Type == 0 ? "0:Admin" : acc.Type == 1 ? "1:Nhân viên" : "2:Quản lý";
             }
         }
 
-        private void ClearAccountInputs()
+        // ============== TAB 5: NHÂN VIÊN (DataSet Logic) ==============
+        private void InitializeEmployeeTab()
         {
-            txtUsername.Clear();
-            txtPassword.Clear();
-            selectedAccountUserName = "";
-            if (cbRole.Items.Count > 0)
-                cbRole.SelectedIndex = 0;
+            if (quanLyNhaHangDataSet == null)
+            {
+                quanLyNhaHangDataSet = new QuanLyNhaHangDataSet();
+                employeeBindingSource = new BindingSource { DataSource = quanLyNhaHangDataSet, DataMember = "Employee" };
+                employeeTableAdapter = new QuanLyNhaHangDataSetTableAdapters.EmployeeTableAdapter();
+            }
+            btnNVAdd.Click += BtnNVAdd_Click;
+            btnNVEdit.Click += BtnNVEdit_Click;
+            btnNVDelete.Click += BtnNVDelete_Click;
+            btnNVSelectAvatar.Click += BtnNVSelectAvatar_Click;
+            dgvNhanVien.CellClick += DgvNhanVien_CellClick;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void LoadEmployeeData()
         {
-            try
+            quanLyNhaHangDataSet.Employee.Clear();
+            employeeTableAdapter.Fill(quanLyNhaHangDataSet.Employee);
+            dgvNhanVien.DataSource = employeeBindingSource;
+        }
+
+        private void DgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvNhanVien.Rows[e.RowIndex].DataBoundItem is DataRowView drv)
             {
-                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", 
-                    "Xác Nhận Đăng Xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                
-                if (result == DialogResult.Yes)
-                {
-                    // Tìm và hiển thị LoginForm nếu nó đang bị ẩn
-                    bool loginFormFound = false;
-                    for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
-                    {
-                        Form form = Application.OpenForms[i];
-                        if (form.GetType().Name == "LoginForm")
-                        {
-                            form.Show();
-                            loginFormFound = true;
-                            break;
-                        }
-                    }
-                    
-                    // Nếu không tìm thấy LoginForm, tạo mới
-                    if (!loginFormFound)
-                    {
-                        LoginForm loginForm = new LoginForm();
-                        loginForm.Show();
-                    }
-                    
-                    // Đóng AdminPanel
-                    this.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
+                DataRow row = drv.Row;
+                selectedEmployeeID = Convert.ToInt32(row["ID"]);
+                txtNVName.Text = row["Name"].ToString();
+                txtNVPhone.Text = row["Phone"].ToString();
+                txtNVPosition.Text = row["Position"].ToString();
+                txtNVSalary.Text = row["Salary"].ToString();
+                selectedEmployeeImagePath = row["Avatar"].ToString();
+                if (System.IO.File.Exists(selectedEmployeeImagePath)) lblNVAvatarDisplay.Image = Image.FromFile(selectedEmployeeImagePath);
             }
         }
+
+        private void BtnNVAdd_Click(object sender, EventArgs e)
+        {
+            var newRow = quanLyNhaHangDataSet.Employee.NewEmployeeRow();
+            newRow.Name = txtNVName.Text;
+            newRow.Phone = txtNVPhone.Text;
+            newRow.Position = txtNVPosition.Text;
+            newRow.Salary = decimal.Parse(txtNVSalary.Text);
+            newRow.Avatar = selectedEmployeeImagePath;
+            quanLyNhaHangDataSet.Employee.AddEmployeeRow(newRow);
+            employeeTableAdapter.Update(quanLyNhaHangDataSet.Employee);
+            LoadEmployeeData();
+        }
+
+        private void BtnNVSelectAvatar_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                selectedEmployeeImagePath = ofd.FileName;
+                lblNVAvatarDisplay.Image = Image.FromFile(ofd.FileName);
+            }
+        }
+
+        // ============== TAB 6: DANH MỤC MÓN ĂN ==============
+        private void InitializeCategoryTab()
+        {
+            btnAdd.Click += BtnAddCategory_Click;
+            btnUpdate.Click += BtnUpdateCategory_Click;
+            btnDelete.Click += BtnDeleteCategory_Click;
+            dgvFoodCategory.CellClick += DgvFoodCategory_CellClick;
+        }
+
+        private void LoadCategoryData() => dgvFoodCategory.DataSource = FoodCategoryDAL.GetAllCategories();
+
+        private void BtnAddCategory_Click(object sender, EventArgs e)
+        {
+            if (FoodCategoryDAL.AddCategory(new FoodCategory { Name = txtTenMon.Text }))
+            {
+                LoadCategoryData();
+                LoadFoodCategories(); // Update ComboBox tab món ăn
+            }
+        }
+
+        private void DgvFoodCategory_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvFoodCategory.Rows[e.RowIndex].DataBoundItem is FoodCategory cat)
+            {
+                selectedCategoryID = cat.ID;
+                txtTenMon.Text = cat.Name;
+            }
+        }
+
+        // ============== ĐĂNG XUẤT (Từ Current Version) ==============
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", "Xác Nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                this.Hide();
+                LoginForm loginForm = new LoginForm();
+                loginForm.ShowDialog();
+                this.Close();
+            }
+        }
+
+        private void BtnNVEdit_Click(object sender, EventArgs e) { /* Logic sửa tương tự Add */ }
+        private void BtnNVDelete_Click(object sender, EventArgs e) { /* Logic xóa tương tự Add */ }
+        private void BtnUpdateCategory_Click(object sender, EventArgs e) { /* Logic sửa danh mục */ }
+private void BtnDeleteCategory_Click(object sender, EventArgs e) { /* Logic xóa danh mục */ }
     }
 }

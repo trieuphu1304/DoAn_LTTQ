@@ -64,5 +64,10 @@ namespace DoAn_LTTQ
                 MessageBox.Show("Lỗi: " + ex.Message, "Lỗi");
             }
         }
+
+        private void nhânViênToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
