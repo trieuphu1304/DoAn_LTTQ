@@ -54,17 +54,26 @@ namespace DoAn_LTTQ
                             // Ẩn LoginForm nhưng vẫn giữ reference
                             this.Hide();
                         }
-                        // 👉 Nếu DisplayName là "nhân viên"
-                        else if (displayName.Trim().ToLower() == "nhân viên")
+                        // 👉 Nếu DisplayName là "nhân viên" (Khớp với chữ "Nhân viên" trong SQL của bạn)
+                        else if (displayName.Trim().Equals("Nhân viên", StringComparison.OrdinalIgnoreCase))
                         {
                             MessageBox.Show("Xin chào nhân viên: " + displayName + "\nĐăng nhập thành công!");
 
-                            // Đóng LoginForm và hiện Master_Layout
-                            Master_Layout staff = new Master_Layout();
-                            staff.Show();
-
-                            // Ẩn LoginForm
-                            this.Hide();
+                            // KIỂM TRA OWNER: 
+                            // Nếu LoginForm được mở từ Master_Layout bằng .ShowDialog(this)
+                            if (this.Owner != null && this.Owner is Master_Layout)
+                            {
+                                // Chỉ cần đóng LoginForm, Master_Layout gốc sẽ tự hiện lại
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+                                // Trường hợp dự phòng nếu bạn chạy LoginForm độc lập
+                                Master_Layout staff = new Master_Layout();
+                                staff.Show();
+                                this.Hide();
+                            }
                         }
                         else
                         {
@@ -107,6 +116,11 @@ namespace DoAn_LTTQ
             {
                 System.Diagnostics.Debug.WriteLine("Lỗi khi đóng Master_Layout: " + ex.Message);
             }
+        }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

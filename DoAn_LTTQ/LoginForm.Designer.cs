@@ -45,6 +45,7 @@ namespace DoAn_LTTQ
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Đăng nhập";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);
             // 
             // lblUsername
             // 

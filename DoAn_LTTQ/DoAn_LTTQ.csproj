@@ -33,9 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
-    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,29 +52,6 @@
     <Compile Include="AdminPanel.Designer.cs">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Master_Layout.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Master_Layout.Designer.cs">
-      <DependentUpon>Master_Layout.cs</DependentUpon>
-    </Compile>
-    <Compile Include="QuanLyNhaHangDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <!-- DATA -->
-    <Compile Include="Data\AccountDAL.cs" />
-    <Compile Include="Data\BillDAL.cs" />
-    <Compile Include="Data\BillInfoDAL.cs" />
-    <Compile Include="Data\CustomerDAL.cs" />
-    <Compile Include="Data\DatabaseConnection.cs" />
-    <Compile Include="Data\EmployeeDAL.cs" />
-    <Compile Include="Data\FoodCategoryDAL.cs" />
-    <Compile Include="Data\FoodDAL.cs" />
-    <Compile Include="Data\TableFoodDAL.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +64,24 @@
     <Compile Include="Master_Layout.Designer.cs">
       <DependentUpon>Master_Layout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuanLyNhaHangDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhaHangDataSet.xsd</DependentUpon>
+    </Compile>
+
+    <Compile Include="Data\AccountDAL.cs" />
+    <Compile Include="Data\BillDAL.cs" />
+    <Compile Include="Data\BillInfoDAL.cs" />
+    <Compile Include="Data\CustomerDAL.cs" />
+    <Compile Include="Data\DatabaseConnection.cs" />
+    <Compile Include="Data\EmployeeDAL.cs" />
+    <Compile Include="Data\FoodCategoryDAL.cs" />
+    <Compile Include="Data\FoodDAL.cs" />
+    <Compile Include="Data\TableFoodDAL.cs" />
+
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillInfo.cs" />
@@ -97,6 +90,7 @@
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\FoodCategory.cs" />
     <Compile Include="Models\TableFood.cs" />
+
     <EmbeddedResource Include="AdminPanel.resx">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,10 +110,12 @@
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="QuanLyNhaHangDataSet.xsc" />
     <None Include="QuanLyNhaHangDataSet.xsd">
@@ -129,6 +125,5 @@
     <None Include="QuanLyNhaHangDataSet.xss" />
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
