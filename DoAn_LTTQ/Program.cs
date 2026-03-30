@@ -13,7 +13,7 @@ namespace DoAn_LTTQ
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AdminPanel());
+            Application.Run(new LoginForm());
         }
     }
 }
