@@ -54,6 +54,16 @@
     <Compile Include="AdminPanel.Designer.cs">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomerPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerPanel.Designer.cs">
+      <DependentUpon>CustomerPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs" />
     <Compile Include="Master_Layout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +110,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="CHANGES_SUMMARY.md" />
+    <None Include="CHECK_DATABASE.md" />
+    <None Include="DANH_SACH_FILE.md" />
+    <None Include="DEBUG_GUIDE.md" />
+    <None Include="FIX_DETAILS.md" />
+    <None Include="LOGIN_GUIDE.md" />
+    <None Include="OFFICIAL_GUIDE.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
     </None>
@@ -114,6 +131,11 @@
     </None>
     <None Include="QuanLyNhaHangDataSet.xss" />
     <None Include="App.config" />
+    <None Include="QUICK_TEST.md" />
+    <None Include="SOLVE_ADMINPANEL.md" />
+    <None Include="START_HERE.md" />
+    <None Include="SUMMARY.md" />
+    <None Include="WHEN_ADMINPANEL_SHOWS.md" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

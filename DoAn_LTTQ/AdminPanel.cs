@@ -41,6 +41,9 @@ namespace DoAn_LTTQ
                 InitializeEmployeeTab();  // Initialize employee tab BEFORE loading data
                 InitializeCategoryTab();   // Initialize category tab
                 LoadAllData();
+
+                // Add event handler for TabControl selection change
+                tabControl1.Selected += TabControl1_Selected;
             }
             catch (Exception ex)
             {
@@ -1135,6 +1138,38 @@ namespace DoAn_LTTQ
         {
             txtTenMon.Clear();
             selectedCategoryID = -1;
+        }
+
+        // ============== ĐĂNG XUẤT ==============
+        private void btnDangXuat_Click(object sender, EventArgs e)
+        {
+            PerformLogout();
+        }
+
+        private void TabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            // Kiểm tra nếu tab "Đăng xuất" được click
+            if (e.TabPage.Text == "Đăng xuất" || e.TabPage.Name == "tabPageLogOut")
+            {
+                PerformLogout();
+            }
+        }
+
+        private void PerformLogout()
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
+            else
+            {
+                // Nếu người dùng chọn "No", quay lại tab trước đó
+                if (tabControl1.TabPages.Count > 0)
+                    tabControl1.SelectedIndex = 0; // Quay lại tab đầu tiên
+            }
         }
     }
 }
