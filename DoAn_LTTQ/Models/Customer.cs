@@ -7,5 +7,10 @@ namespace DoAn_LTTQ.Models
         public string Phone { get; set; }
         public string Address { get; set; }
         public int Points { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name} - {Phone}";
+        }
     }
 }
