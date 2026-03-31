@@ -147,5 +147,18 @@ namespace DoAn_LTTQ
                 MessageBox.Show("Lỗi khi mở giao diện khách hàng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void đặtMónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OrderForm orderForm = new OrderForm();
+                orderForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi mở giao diện đặt món: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

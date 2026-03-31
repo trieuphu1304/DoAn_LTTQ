@@ -54,11 +54,29 @@
     <Compile Include="AdminPanel.Designer.cs">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="BillDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BillDetailsForm.Designer.cs">
+      <DependentUpon>BillDetailsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomerPanel.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CustomerPanel.Designer.cs">
       <DependentUpon>CustomerPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerSelectionForm.Designer.cs">
+      <DependentUpon>CustomerSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditQuantityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditQuantityForm.Designer.cs">
+      <DependentUpon>EditQuantityForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -69,6 +87,30 @@
     </Compile>
     <Compile Include="Master_Layout.Designer.cs">
       <DependentUpon>Master_Layout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderConfirmationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderConfirmationForm.Designer.cs">
+      <DependentUpon>OrderConfirmationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderForm.Designer.cs">
+      <DependentUpon>OrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderHistoryForm.Designer.cs">
+      <DependentUpon>OrderHistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrintBillForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintBillForm.Designer.cs">
+      <DependentUpon>PrintBillForm.cs</DependentUpon>
     </Compile>
     <Compile Include="QuanLyNhaHangDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -96,11 +138,18 @@
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\FoodCategory.cs" />
     <Compile Include="Models\TableFood.cs" />
+    <Compile Include="TableStateManager.cs" />
     <EmbeddedResource Include="AdminPanel.resx">
       <DependentUpon>AdminPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BillDetailsForm.resx">
+      <DependentUpon>BillDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master_Layout.resx">
       <DependentUpon>Master_Layout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderHistoryForm.resx">
+      <DependentUpon>OrderHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
